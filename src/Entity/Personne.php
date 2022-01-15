@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PersonneRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PersonneRepository::class)]
 class Personne
@@ -14,13 +15,14 @@ class Personne
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $nom;
+    private ?string $nom;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $prenom;
+    private ?string $prenom;
 
+    #[Assert\GreaterThan('-150 years')]
     #[ORM\Column(type: 'date')]
-    private $dateDeNaissance;
+    private ?\DateTimeInterface $dateDeNaissance;
 
     public function getId(): ?int
     {
@@ -61,5 +63,12 @@ class Personne
         $this->dateDeNaissance = $dateDeNaissance;
 
         return $this;
+    }
+
+    public function getAge(): int
+    {
+        $dateInterval = $this->dateDeNaissance->diff(new \DateTime());
+
+        return $dateInterval->y;
     }
 }

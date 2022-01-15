@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Personne{% endblock %}
+
+{% block body %}
+    <h1>Create new Personne</h1>
+
+    {{ include('personne/_form.html.twig') }}
+    <hr>
+    <a class="btn btn-primary" href="{{ path('personne_index') }}">Visualiser</a>
+{% endblock %}
+
